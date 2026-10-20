@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nour Theatre Tickets</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🎭 Nour Theatre</h1>
+    <div id="legend">
+      <span><i class="dot" style="--c:#c0392b"></i>VIP 180 ₼</span>
+      <span><i class="dot" style="--c:#2980b9"></i>Standard 130 ₼</span>
+      <span><i class="dot" style="--c:#8e44ad"></i>Economy 80 ₼</span>
+      <span><i class="dot in-cart"></i>In cart</span>
+      <span><i class="dot unavail"></i>Unavailable</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="map-area">
+      <div class="controls">
+        <button type="button" data-action="zoom-in">＋ Zoom In</button>
+        <button type="button" data-action="zoom-out">－ Zoom Out</button>
+        <button type="button" data-action="up">↑ Up</button>
+        <button type="button" data-action="down">↓ Down</button>
+        <button type="button" data-action="left">← Left</button>
+        <button type="button" data-action="right">→ Right</button>
+        <button type="button" data-action="reset">⟲ Reset</button>
+      </div>
+      <div id="viewport">
+        <div id="venue"><div id="stage">STAGE</div></div>
+      </div>
+    </section>
+
+    <aside>
+      <section id="details"></section>
+      <section id="cart">
+        <h2>Cart</h2>
+        <button type="button" id="clear-cart">Clear cart</button>
+        <ul id="cart-list"></ul>
+        <p>Total: <strong id="total">0</strong> ₼</p>
+      </section>
+    </aside>
+  </main>
+
+  <script src="js/venue-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
