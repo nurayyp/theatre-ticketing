@@ -1,4 +1,4 @@
-# Grand Theatre Ticketing
+# Nour Theatre Ticketing
 
 Interactive venue ticketing system (Web & Mobile I project).
 Built with HTML, CSS and JavaScript.
