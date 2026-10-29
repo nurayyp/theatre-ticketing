@@ -14,7 +14,7 @@ aside{display:flex;flex-direction:column;gap:12px}
 
 .controls{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
 button{cursor:pointer;padding:6px 10px;border:0;border-radius:6px;background:#3a4052;color:#fff}
-button:hover:not(:disabled){background:#4a526a}
+button:not(.seat):hover:not(:disabled){background:#4a526a}
 button:disabled{opacity:.5;cursor:not-allowed}
 
 #viewport{position:relative;height:60vh;overflow:hidden;background:#0e1015;
@@ -26,3 +26,6 @@ button:disabled{opacity:.5;cursor:not-allowed}
 #cart-list{list-style:none;padding:0;margin:8px 0}
 #cart-list li{display:flex;justify-content:space-between;align-items:center;
   padding:4px 0;border-bottom:1px solid #333}
+
+.seat{position:absolute;width:28px;height:28px;padding:0;font-size:9px;color:#fff;
+  background:var(--c);border-radius:6px 6px 3px 3px}
