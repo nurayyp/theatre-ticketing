@@ -29,3 +29,8 @@ button:disabled{opacity:.5;cursor:not-allowed}
 
 .seat{position:absolute;width:28px;height:28px;padding:0;font-size:9px;color:#fff;
   background:var(--c);border-radius:6px 6px 3px 3px}
+
+.seat:hover:not(.unavailable){filter:brightness(1.25)}
+.seat.inspected{outline:3px solid #fff;z-index:2}
+.seat.in-cart{background:#2ecc71;color:#000}
+.seat.unavailable{background:#555;opacity:.45;cursor:not-allowed}

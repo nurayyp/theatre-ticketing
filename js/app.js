@@ -1,5 +1,7 @@
 const venueEl = document.getElementById('venue');
 const seats = new Map();
+let inspectedId = null;
+let cart = [];
 
 const isUnavailable = (si, r, c) => (si * 5 + r * 7 + c * 3) % 11 === 0;
 
@@ -25,12 +27,21 @@ function buildSeats() {
         btn.style.setProperty('--c', seat.color);
         btn.setAttribute('aria-label',
           `${seat.section}, row ${row}, seat ${seat.number}, ${seat.price} AZN`);
+        if (seat.unavailable) {
+          btn.classList.add('unavailable');
+          btn.setAttribute('aria-disabled', 'true');
+        }
         seat.el = btn;
         venueEl.appendChild(btn);
         seats.set(seat.id, seat);
       }
     }
   });
+}
+
+function refreshSeat(seat) {
+  seat.el.classList.toggle('inspected', seat.id === inspectedId);
+  seat.el.classList.toggle('in-cart', cart.includes(seat.id));
 }
 
 buildSeats();

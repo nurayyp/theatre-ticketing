@@ -8,16 +8,16 @@ Theatre/auditorium with a stage, four sections and three price categories.
 
 | Section         | Category | Price | Layout   |
 |-----------------|----------|-------|----------|
-| Center Front    | VIP      | 180 ₼  | 5 × 10   |
-| Left Orchestra  | Standard | 130 ₼  | 5 × 6    |
-| Right Orchestra | Standard | 130 ₼  | 5 × 6    |
+| Center Front    | VIP      | 180 ₼ | 5 × 10   |
+| Left Orchestra  | Standard | 130 ₼ | 5 × 6    |
+| Right Orchestra | Standard | 130 ₼ | 5 × 6    |
 | Balcony         | Economy  | 80 ₼  | 4 × 24   |
 
 Total: 206 seats.
 
-## Planned features
+## Features
 - Seats generated from JavaScript data
 - Seat inspection, then Add to Cart
-- Zoom / move / reset controls
+- Zoom / move / reset controls, mouse wheel zoom and drag panning
 - Cart with localStorage persistence
 - Responsive layout
