@@ -1,4 +1,5 @@
 const venueEl = document.getElementById('venue');
+const detailsEl = document.getElementById('details');
 const seats = new Map();
 let inspectedId = null;
 let cart = [];
@@ -44,4 +45,37 @@ function refreshSeat(seat) {
   seat.el.classList.toggle('in-cart', cart.includes(seat.id));
 }
 
+function inspect(id) {
+  const prev = inspectedId;
+  inspectedId = id;
+  if (prev) refreshSeat(seats.get(prev));
+  refreshSeat(seats.get(id));
+  renderDetails();
+}
+
+function renderDetails() {
+  const s = seats.get(inspectedId);
+  if (!s) {
+    detailsEl.innerHTML = '<h2>Seat details</h2><p>Select a seat on the map.</p>';
+    return;
+  }
+  const inCart = cart.includes(s.id);
+  const status = s.unavailable ? 'Unavailable' : inCart ? 'In your cart' : 'Available';
+  detailsEl.innerHTML = `
+    <h2>Seat details</h2>
+    <p><b>Section:</b> ${s.section}</p>
+    <p><b>Row / Seat:</b> ${s.row} / ${s.number}</p>
+    <p><b>Category:</b> ${s.category}</p>
+    <p><b>Price:</b> ${s.price} ₼</p>
+    <p><b>Status:</b> ${status}</p>
+    <button type="button" id="add-btn" ${s.unavailable || inCart ? 'disabled' : ''}>
+      ${inCart ? 'Already in cart' : s.unavailable ? 'Unavailable' : 'ADD TO CART'}</button>`;
+}
+
+venueEl.addEventListener('click', e => {
+  const b = e.target.closest('.seat');
+  if (b) inspect(b.dataset.id);
+});
+
 buildSeats();
+renderDetails();

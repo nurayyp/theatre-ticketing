@@ -34,3 +34,5 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .seat.inspected{outline:3px solid #fff;z-index:2}
 .seat.in-cart{background:#2ecc71;color:#000}
 .seat.unavailable{background:#555;opacity:.45;cursor:not-allowed}
+
+#add-btn:not(:disabled){background:var(--accent);color:#000;font-weight:700}
