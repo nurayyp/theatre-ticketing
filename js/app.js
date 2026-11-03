@@ -41,6 +41,17 @@ function buildSeats() {
   });
 }
 
+function buildLabels() {
+  SECTIONS.forEach(sec => {
+    const l = document.createElement('div');
+    l.className = 'sec-label';
+    l.textContent = `${sec.name} · ${CATEGORIES[sec.category].price} ₼`;
+    l.style.left = sec.x + 'px';
+    l.style.top = (sec.y - 22) + 'px';
+    venueEl.appendChild(l);
+  });
+}
+
 function refreshSeat(seat) {
   seat.el.classList.toggle('inspected', seat.id === inspectedId);
   seat.el.classList.toggle('in-cart', cart.includes(seat.id));
@@ -124,5 +135,6 @@ document.querySelector('.controls').addEventListener('click', e => {
 window.addEventListener('resize', applyView);
 
 buildSeats();
+buildLabels();
 renderDetails();
 resetView();

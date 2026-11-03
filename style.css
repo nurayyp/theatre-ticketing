@@ -36,3 +36,5 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .seat.unavailable{background:#555;opacity:.45;cursor:not-allowed}
 
 #add-btn:not(:disabled){background:var(--accent);color:#000;font-weight:700}
+
+.sec-label{position:absolute;font-size:12px;color:#aaa;white-space:nowrap}
