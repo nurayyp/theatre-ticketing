@@ -1,4 +1,5 @@
 const venueEl = document.getElementById('venue');
+const vp = document.getElementById('viewport');
 const detailsEl = document.getElementById('details');
 const seats = new Map();
 let inspectedId = null;
@@ -77,5 +78,51 @@ venueEl.addEventListener('click', e => {
   if (b) inspect(b.dataset.id);
 });
 
+const view = { x: 0, y: 0, s: 1 };
+const MIN_ZOOM = 0.4, MAX_ZOOM = 2.5, PAN = 60, MARGIN = 80;
+
+function applyView() {
+  const w = VENUE_W * view.s, h = VENUE_H * view.s;
+  view.x = Math.min(vp.clientWidth - MARGIN, Math.max(MARGIN - w, view.x));
+  view.y = Math.min(vp.clientHeight - MARGIN, Math.max(MARGIN - h, view.y));
+  venueEl.style.transform = `translate(${view.x}px,${view.y}px) scale(${view.s})`;
+}
+
+function zoomAt(f, cx, cy) {
+  const ns = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, view.s * f));
+  const k = ns / view.s;
+  view.x = cx - (cx - view.x) * k;
+  view.y = cy - (cy - view.y) * k;
+  view.s = ns;
+  applyView();
+}
+
+const zoomCenter = f => zoomAt(f, vp.clientWidth / 2, vp.clientHeight / 2);
+function pan(dx, dy) { view.x += dx; view.y += dy; applyView(); }
+
+function resetView() {
+  view.s = Math.min(1, vp.clientWidth / VENUE_W, vp.clientHeight / VENUE_H);
+  view.x = (vp.clientWidth - VENUE_W * view.s) / 2;
+  view.y = (vp.clientHeight - VENUE_H * view.s) / 2;
+  applyView();
+}
+
+const actions = {
+  'zoom-in': () => zoomCenter(1.2),
+  'zoom-out': () => zoomCenter(1 / 1.2),
+  up: () => pan(0, PAN),
+  down: () => pan(0, -PAN),
+  left: () => pan(PAN, 0),
+  right: () => pan(-PAN, 0),
+  reset: resetView
+};
+
+document.querySelector('.controls').addEventListener('click', e => {
+  const a = e.target.closest('[data-action]');
+  if (a) actions[a.dataset.action]();
+});
+window.addEventListener('resize', applyView);
+
 buildSeats();
 renderDetails();
+resetView();
