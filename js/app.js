@@ -1,6 +1,10 @@
 const venueEl = document.getElementById('venue');
 const vp = document.getElementById('viewport');
 const detailsEl = document.getElementById('details');
+const cartListEl = document.getElementById('cart-list');
+const totalEl = document.getElementById('total');
+
+const STORAGE_KEY = 'theatre-cart-v1';
 const seats = new Map();
 let inspectedId = null;
 let cart = [];
@@ -82,6 +86,68 @@ function renderDetails() {
     <p><b>Status:</b> ${status}</p>
     <button type="button" id="add-btn" ${s.unavailable || inCart ? 'disabled' : ''}>
       ${inCart ? 'Already in cart' : s.unavailable ? 'Unavailable' : 'ADD TO CART'}</button>`;
+  document.getElementById('add-btn').addEventListener('click', addToCart);
+}
+
+function addToCart() {
+  const s = seats.get(inspectedId);
+  if (!s || s.unavailable || cart.includes(s.id)) return;
+  cart.push(s.id);
+  refreshSeat(s);
+  renderCart();
+  renderDetails();
+  saveCart();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(x => x !== id);
+  refreshSeat(seats.get(id));
+  renderCart();
+  renderDetails();
+  saveCart();
+}
+
+document.getElementById('clear-cart').addEventListener('click', () => {
+  const old = [...cart];
+  cart = [];
+  old.forEach(id => refreshSeat(seats.get(id)));
+  renderCart();
+  renderDetails();
+  saveCart();
+});
+
+function renderCart() {
+  cartListEl.innerHTML = '';
+  if (!cart.length) {
+    cartListEl.innerHTML = '<li>Cart is empty</li>';
+  }
+  cart.forEach(id => {
+    const s = seats.get(id);
+    const li = document.createElement('li');
+    const label = document.createElement('span');
+    label.textContent = `${s.section} ${s.row}${s.number} — ${s.price} ₼`;
+    const rm = document.createElement('button');
+    rm.type = 'button';
+    rm.textContent = '✕';
+    rm.setAttribute('aria-label', `Remove ${s.id}`);
+    rm.addEventListener('click', () => removeFromCart(id));
+    li.append(label, rm);
+    cartListEl.appendChild(li);
+  });
+  totalEl.textContent = cart.reduce((sum, id) => sum + seats.get(id).price, 0);
+}
+
+function saveCart() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); } catch {}
+}
+
+function loadCart() {
+  try {
+    const ids = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    cart = ids.filter((id, i) =>
+      seats.has(id) && !seats.get(id).unavailable && ids.indexOf(id) === i);
+  } catch { cart = []; }
+  cart.forEach(id => refreshSeat(seats.get(id)));
 }
 
 venueEl.addEventListener('click', e => {
@@ -136,5 +202,7 @@ window.addEventListener('resize', applyView);
 
 buildSeats();
 buildLabels();
+loadCart();
+renderCart();
 renderDetails();
 resetView();
