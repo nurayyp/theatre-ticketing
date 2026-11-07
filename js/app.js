@@ -200,6 +200,35 @@ document.querySelector('.controls').addEventListener('click', e => {
 });
 window.addEventListener('resize', applyView);
 
+vp.addEventListener('wheel', e => {
+  e.preventDefault();
+  const r = vp.getBoundingClientRect();
+  zoomAt(e.deltaY < 0 ? 1.1 : 1 / 1.1, e.clientX - r.left, e.clientY - r.top);
+}, { passive: false });
+
+let drag = null, moved = false;
+vp.addEventListener('pointerdown', e => {
+  if (e.button !== 0) return;
+  drag = { x: e.clientX, y: e.clientY };
+  moved = false;
+});
+window.addEventListener('pointermove', e => {
+  if (!drag) return;
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  if (!moved && Math.hypot(dx, dy) < 5) return;
+  moved = true;
+  vp.classList.add('dragging');
+  pan(dx, dy);
+  drag = { x: e.clientX, y: e.clientY };
+});
+window.addEventListener('pointerup', () => {
+  drag = null;
+  vp.classList.remove('dragging');
+});
+vp.addEventListener('click', e => {
+  if (moved) { e.stopPropagation(); moved = false; }
+}, true);
+
 buildSeats();
 buildLabels();
 loadCart();
