@@ -16,8 +16,14 @@ Theatre/auditorium with a stage, four sections and three price categories.
 Total: 206 seats.
 
 ## Features
-- Seats generated from JavaScript data
-- Seat inspection, then Add to Cart
-- Zoom / move / reset controls, mouse wheel zoom and drag panning
-- Cart with localStorage persistence
-- Responsive layout
+- Seats generated from JavaScript data (206 seats, 4 sections, 3 price tiers)
+- Seat inspection with details and price; only ADD TO CART adds a ticket
+- Seat states: available, inspected, in cart, unavailable
+- Zoom in/out, move up/down/left/right, reset view
+- Mouse wheel zoom and click-drag panning (bonus)
+- Cart with total, ticket removal and duplicate prevention
+- Cart saved in localStorage and restored after refresh
+- Responsive layout for tablet and phone
+
+## Run
+Open `index.html` in a browser. No build step is needed.
